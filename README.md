@@ -1,12 +1,12 @@
-# _Memory-card_
+# _Jeopardy_
 
-#### _A memory game, 9-September-2019_
+#### _A jeopardy game, 11-September-2019_
 
-#### By _**Jason Huels & Devin Cooley**_
+#### By _**Jason Huels & Hailey Gaylor**_
 
 ## Description
 
-_A game where cards will be populated with random gifs and then hidden, the user must match the two cards with the same gif_
+_A game where you answer questions_
 
 ## Specifications
 
@@ -36,4 +36,4 @@ _HTML, CSS, JavaScript, jQuery, Bootstrap, Node.js, npm, webpack, popper.js, esl
 
 *open source*
 
-Copyright (c) 2019 **_Jason Huels & Devin Cooley_**
+Copyright (c) 2019 **_Jason Huels & Hailey Gaylor_**

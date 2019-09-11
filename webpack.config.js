@@ -17,7 +17,7 @@ module.exports = {
     new Dotenv(),
     new UglifyJsPlugin({ sourceMap: true }),
     new HtmlWebpackPlugin({
-      title: 'memory-game',
+      title: 'jeopardy',
       template: './src/index.html',
       inject: 'body'
     })
