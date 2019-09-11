@@ -13,23 +13,27 @@ $(document).ready(function() {
   let turn = Math.round(Math.random());
   let questions = [];
   let answers = [];
+  let notAnswers = [];
   let promise2;
+  let answerKeys = ["a1", "a2", "a3", "a4"];
+  const reg_nums = /[^0-9.]/;
+
   //remove this after testing
   player1 = new Player("player1");
   player2 = new Player("player2");
 
   //Create Players
-  for(let i=0; i<2; i++){
-    let character = new Character();
-    let promise1 = character.getCharacter();
-    promise1.then(function(response) {
-      const body = JSON.parse(response);
-      players[i] = new Player(body.name);
-      $(`#player${i+1}`).html(`<img src=${body.image}><br><h3>${body.name}: <span id=p${i+1}-score></span></h3>`);
-    }, function(error) {
-      $('.showErrors').text(`There was an error processing your request: ${error.message}`);
-    });
-  }
+  // for(let i=0; i<2; i++){
+  //   let character = new Character();
+  //   let promise1 = character.getCharacter();
+  //   promise1.then(function(response) {
+  //     const body = JSON.parse(response);
+  //     players[i] = new Player(body.name);
+  //     $(`#player${i+1}`).html(`<img src=${body.image}><br><h3>${body.name}: <span id=p${i+1}-score></span></h3>`);
+  //   }, function(error) {
+  //     $('.showErrors').text(`There was an error processing your request: ${error.message}`);
+  //   });
+  // }
 
   // Get first round of getQuestions
     let jeopardy = new Jeopardy();
@@ -39,6 +43,7 @@ $(document).ready(function() {
       for(let i=0; i<9; i++) {
         questions[i] = body.results[i].question;
         answers[i] = body.results[i].correct_answer;
+        notAnswers[i] = body.results[i].incorrect_answers;
         //populate html elements
         // body.results[i].category
         // body.results[i].difficulty
@@ -49,11 +54,10 @@ $(document).ready(function() {
           <h3 class="points">${body.results[i].difficulty}</h3>
         </div><br>`);
       }
-      console.log(questions, answers);
+      console.log(questions, answers, notAnswers);
     }, function(error) {
       $('.showErrors').text(`There was an error processing your request: ${error.message}`);
     });
-
 
   // Buzzer
   $("html").keydown(function(e) {
@@ -68,5 +72,25 @@ $(document).ready(function() {
          }
       }
   });
+
+  promise2.then(function(response) {
+    $("div.question").click(function() {
+      let index = this.id.replace(reg_nums, '');
+      document.getElementById("myModal").style.display = "block";
+      $("#jep-quest").text(questions[index]);
+      console.log(answers[index], notAnswers[index])
+      if(notAnswers[index].length < 4) {
+        notAnswers[index].splice(Math.floor(Math.random()*3), 0, answers[index]);
+
+        for(let i=0; i<answerKeys.length; i++){
+          $(`#${answerKeys[i]}`).html(notAnswers[index][i]);
+        }
+      }
+    });
+
+  }, function(error) {
+    $('.showErrors').text(`There was an error processing your request: ${error.message}`);
+  });
+
 
 });
